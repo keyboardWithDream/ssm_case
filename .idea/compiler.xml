@@ -6,7 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ssm_case" />
+        <module name="ssm_case_utils" />
+        <module name="ssm_case_service" />
+        <module name="ssm_case_web" />
+        <module name="ssm_case_dao" />
+        <module name="ssm_case_domain" />
       </profile>
     </annotationProcessing>
   </component>
