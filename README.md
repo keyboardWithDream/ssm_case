@@ -303,19 +303,20 @@ ssm_case
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc10 -->
+        <!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc10</artifactId>
+            <artifactId>ojdbc8</artifactId>
             <version>${oracle.version}</version>
         </dependency>
+
+
 
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>jsr250-api</artifactId>
             <version>1.0</version>
         </dependency>
-
     </dependencies>
 
 
@@ -338,5 +339,418 @@ ssm_case
     </build>
 
 </project>
+```
+
+## 2. 编码
+
+### 2.1 domain层编写
+
+#### 2.1.1 `Product`
+
+```java
+package com.ssm.domain;
+
+import java.util.Date;
+
+/**
+ * 产品信息实体类
+ * @Author Harlan
+ * @Date 2020/9/20
+ */
+public class Product implement Serializable{
+    private String id;
+    private String productNum;
+    private String productName;
+    private String cityName;
+    private Date departureTime;
+    private String departureTimeStr;
+    private double productPrice;
+    private String productDesc;
+    private Integer productStatus;
+    private String productStatusStr;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getProductNum() {
+        return productNum;
+    }
+
+    public void setProductNum(String productNum) {
+        this.productNum = productNum;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public Date getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(Date departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public String getDepartureTimeStr() {
+        return departureTimeStr;
+    }
+
+    public void setDepartureTimeStr(String departureTimeStr) {
+        this.departureTimeStr = departureTimeStr;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public String getProductDesc() {
+        return productDesc;
+    }
+
+    public void setProductDesc(String productDesc) {
+        this.productDesc = productDesc;
+    }
+
+    public Integer getProductStatus() {
+        return productStatus;
+    }
+
+    public void setProductStatus(Integer productStatus) {
+        this.productStatus = productStatus;
+    }
+
+    public String getProductStatusStr() {
+        return productStatusStr;
+    }
+
+    public void setProductStatusStr(String productStatusStr) {
+        this.productStatusStr = productStatusStr;
+    }
+}
+```
+
+---
+
+### 2.2 dao层编写
+
+####  2.2.1 `IProductDao`
+
+```java
+package com.ssm.dao;
+
+import com.ssm.domain.Product;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+/**
+ * @Author Harlan
+ * @Date 2020/9/20
+ */
+public interface IProductDao {
+
+    /**
+     * 查询所有产品信息
+     * @return list
+     * @throws Exception 异常
+     */
+    @Select("select * from product")
+    List<Product> findAll() throws Exception;
+}
+```
+
+---
+
+### 2.3 service层编写
+
+#### 2.3.1 `IProductService`
+
+```java
+package com.ssm.service;
+
+import com.ssm.domain.Product;
+
+import java.util.List;
+
+/**
+ * @Author Harlan
+ * @Date 2020/9/20
+ */
+public interface IProductService {
+
+    /**
+     * 查询所有产品
+     * @return list
+     * @throws Exception 异常
+     */
+    List<Product> findAll() throws Exception;
+}
+```
+
+**实现类:**
+
+```java
+package com.ssm.service.impl;
+
+import com.ssm.dao.IProductDao;
+import com.ssm.domain.Product;
+import com.ssm.service.IProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * @Author Harlan
+ * @Date 2020/9/20
+ */
+@Service
+@Transactional
+public class ProductServiceImpl implements IProductService {
+
+    @Autowired
+    private IProductDao dao;
+
+    @Override
+    public List<Product> findAll() throws Exception {
+        return dao.findAll();
+    }
+}
+```
+
+---
+
+### 2.4 web(Controller)层编写
+
+#### 2.4.1 `ProductController`
+
+```java
+package com.ssm.controller;
+
+import com.ssm.domain.Product;
+import com.ssm.service.IProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+
+/**
+ * @Author Harlan
+ * @Date 2020/9/20
+ */
+@Controller
+@RequestMapping("/product")
+public class ProductController {
+
+    @Autowired
+    private IProductService service;
+
+    @RequestMapping("/findAll.do")
+    public ModelAndView findAll() throws Exception {
+        ModelAndView mv = new ModelAndView();
+        List<Product> products = service.findAll();
+        mv.addObject("productList",products);
+        mv.setViewName("product-list");
+        return mv;
+    }
+}
+```
+
+---
+
+## 3. 配置文件
+
+#### 3.1 `applicationContext.xml`
+
+**Spring配置文件(整合MyBatis)**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 注解扫描 -->
+    <context:component-scan base-package="com.ssm.dao"/>
+    <context:component-scan base-package="com.ssm.service.impl"/>
+
+    <!-- 加载连接配置信息 -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!-- 数据库连接池 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!-- sqlSessionFactory 交给IoC容器管理 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 扫描dao接口 -->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ssm.dao"/>
+    </bean>
+
+    <!-- 配置Spring的声明事务管理 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
+```
+
+#### 3.2 `springmvc.xml`
+
+SpringMVC配置文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 扫描controller注解 -->
+    <context:component-scan base-package="com.ssm.controller"/>
+
+    <!-- 配置视图解析器 -->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 静态资源不过滤 -->
+    <mvc:default-servlet-handler/>
+
+    <!-- 开启MVC注解 -->
+    <mvc:annotation-driven/>
+
+    <!-- AOP注解支持 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+</beans>
+```
+
+#### 3.3 `web.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+  <display-name>Archetype Created Web Application</display-name>
+
+  <!-- 配置加载类路径的配置文件 -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath*:applicationContext.xml</param-value>
+  </context-param>
+
+  <!-- 配置监听器 -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <!-- 配置监听器, 监听request域对象的创建和销毁 -->
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
+  
+  <!-- 配置前端控制器 -->
+  <servlet>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:springmvc.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+
+  <!-- 解决中文乱码问题 -->
+  <filter>
+    <filter-name>characterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>characterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- 指定默认加载页面 -->
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
+```
+
+#### 3.4 `db.propreties`
+
+数据库连接信息
+
+```properties
+jdbc.driver=oracle.jdbc.OracleDriver
+jdbc.url=jdbc:oracle:thin:@192.168.154.141:1521/orcldb
+jdbc.user=c##ssm
+jdbc.password=Hhn004460
 ```
 

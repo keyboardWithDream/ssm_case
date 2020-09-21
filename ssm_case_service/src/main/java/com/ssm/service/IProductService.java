@@ -16,4 +16,10 @@ public interface IProductService {
      * @throws Exception 异常
      */
     List<Product> findAll() throws Exception;
+
+    /**
+     * 保存产品信息
+     * @param product 产品信息
+     */
+    void save(Product product);
 }

@@ -12,5 +12,6 @@
 </head>
 <body>
 <a href="${pageContext.request.contextPath}/product/findAll.do">查询所有产品信息</a>
+<a href="${pageContext.request.contextPath}/pages/product-add.jsp">添加产品信息</a>
 </body>
 </html>

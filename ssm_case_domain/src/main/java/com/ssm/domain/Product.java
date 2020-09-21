@@ -1,7 +1,10 @@
 package com.ssm.domain;
 
+import com.ssm.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * 产品信息实体类
@@ -61,6 +64,9 @@ public class Product implements Serializable {
     }
 
     public String getDepartureTimeStr() {
+        if (departureTime != null){
+            departureTimeStr = DateUtils.date2String(departureTime, "yyyy-MM-dd HH:mm:ss");
+        }
         return departureTimeStr;
     }
 
