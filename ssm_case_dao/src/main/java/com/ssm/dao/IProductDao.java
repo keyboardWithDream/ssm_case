@@ -1,6 +1,7 @@
 package com.ssm.dao;
 
 import com.ssm.domain.Product;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 

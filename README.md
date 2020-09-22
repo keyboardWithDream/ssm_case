@@ -51,6 +51,8 @@ grant unlimited tablespace to C##SSM;
 
 #### 1.1.2 创建产品表
 
+`product`
+
 | 序号 |   字段名称    |   字段类型    |       字段描述        |
 | :--: | :-----------: | :-----------: | :-------------------: |
 |  1   |      id       | varchar2(32)  |   无意义,主键`uuid`   |
@@ -65,15 +67,15 @@ grant unlimited tablespace to C##SSM;
 **创建产品表sql:**
 
 ```sql
---创建产品表
-create table product(
-    id varchar2(32) default sys_guid() primary key ,
-    productNum varchar2(50) not null ,
-    productName varchar2(50) ,
-    cityName varchar2(50) ,
+create table product
+(
+    id            varchar2(32) default sys_guid() primary key,
+    productNum    varchar2(50) not null,
+    productName   varchar2(50),
+    cityName      varchar2(50),
     DepartureTime timestamp,
-    productPrice number,
-    productDesc varchar2(500),
+    productPrice  number,
+    productDesc   varchar2(500),
     productStatus int,
     constraint product unique (id, productNum)
 );
@@ -97,6 +99,228 @@ values ('9F71F01CB448476DAFB309AA6DF9497F', 'itcast-001', '北京三日游', '�
 10-2018 10:10:00.000000', 'dd-mm-yyyy hh24:mi:ss.ff'), 1200, '不错的旅行', 1);
 commit ;
 ```
+
+---
+
+#### 1.1.3 创建会员表
+
+`member`
+
+| 序号 | 字段名称 |   字段类型   |     字段描述     |
+| :--: | :------: | :----------: | :--------------: |
+|  1   |    id    | varchar2(32) | 无意义, 主键uuid |
+|  2   |   name   | varchar2(20) |       姓名       |
+|  3   | nikeName | varchar2(20) |       昵称       |
+|  4   | phoneNum | varchar2(20) |     电话号码     |
+|  5   |  email   | varchar2(50) |       邮箱       |
+
+**创建表sql:**
+
+```sql
+--会员表创建
+CREATE TABLE member
+(
+    id       varchar2(32) default SYS_GUID() PRIMARY KEY,
+    NAME     VARCHAR2(20),
+    nickname VARCHAR2(20),
+    phoneNum VARCHAR2(20),
+    email    VARCHAR2(20)
+);
+```
+
+插入测试数据sql:
+
+```sql
+--插入数据
+insert into MEMBER (id, name, nickname, phonenum, email)
+values ('E61D65F673D54F68B0861025C69773DB', '张三', '小三', '18888888888', 'zs@163.com');
+commit ;
+```
+
+---
+
+#### 1.1.4 创建订单表
+
+`orders`
+
+| 序号 |  字段名称   |   字段类型    |              字段描述               |
+| :--: | :---------: | :-----------: | :---------------------------------: |
+|  1   |     id      | varchar2(32)  |           无意义,主键uuid           |
+|  2   |  orderNum   | varchar2(50)  |       订单编号, 不为空, 唯一        |
+|  3   |  orderTime  |   timestamp   |              下单时间               |
+|  4   | perpleCount |      int      |              出行人数               |
+|  5   |  orderDesc  | varchar2(500) |         订单描述(其他信息)          |
+|  6   |   payType   |      int      | 支付方式(0 支付宝/ 1 微信 / 2 其他) |
+|  7   | orderStatus |      int      |    订单状态(0 未支付/ 1 已支付)     |
+|  8   |  productld  |      int      |             产品id外键              |
+|  9   |  memberid   |      int      |        会员(联系人) id 外键         |
+
+**创建表sql:**
+
+```sql
+--创建订单表
+CREATE TABLE orders
+(
+    id          varchar2(32) default SYS_GUID() PRIMARY KEY,
+    orderNum    VARCHAR2(20) NOT NULL UNIQUE,
+    orderTime   timestamp,
+    peopleCount INT,
+    orderDesc   VARCHAR2(500),
+    payType     INT,
+    orderStatus INT,
+    productId   varchar2(32),
+    memberId    varchar2(32),
+    FOREIGN KEY (productId) REFERENCES product (id),
+    FOREIGN KEY (memberId) REFERENCES member (id)
+);
+```
+
+插入测试数据:
+
+```sql
+--插入测试数据
+insert into ORDERS (id, ordernum, ordertime, peoplecount, orderdesc, paytype, orderstatus,
+productid, memberid)
+values ('0E7231DC797C486290E8713CA3C6ECCC', '12345', to_timestamp('02-03-2018 12:00:00.000000','dd-mm-yyyy hh24:mi:ss.ff'), 2, '没什么', 0, 1, '676C5BD1D35E429A8C2E114939C5685A',
+'E61D65F673D54F68B0861025C69773DB');
+insert into ORDERS (id, ordernum, ordertime, peoplecount, orderdesc, paytype, orderstatus,
+productid, memberid)
+values ('5DC6A48DD4E94592AE904930EA866AFA', '54321', to_timestamp('02-03-2018 12:00:00.000000',
+'dd-mm-yyyy hh24:mi:ss.ff'), 2, '没什么', 0, 1, '676C5BD1D35E429A8C2E114939C5685A',
+'E61D65F673D54F68B0861025C69773DB');
+insert into ORDERS (id, ordernum, ordertime, peoplecount, orderdesc, paytype, orderstatus,
+productid, memberid)
+values ('2FF351C4AC744E2092DCF08CFD314420', '67890', to_timestamp('02-03-2018 12:00:00.000000',
+'dd-mm-yyyy hh24:mi:ss.ff'), 2, '没什么', 0, 1, '12B7ABF2A4C544568B0A7C69F36BF8B7',
+'E61D65F673D54F68B0861025C69773DB');
+insert into ORDERS (id, ordernum, ordertime, peoplecount, orderdesc, paytype, orderstatus,
+productid, memberid)
+values ('A0657832D93E4B10AE88A2D4B70B1A28', '98765', to_timestamp('02-03-2018 12:00:00.000000',
+'dd-mm-yyyy hh24:mi:ss.ff'), 2, '没什么', 0, 1, '12B7ABF2A4C544568B0A7C69F36BF8B7',
+'E61D65F673D54F68B0861025C69773DB');
+insert into ORDERS (id, ordernum, ordertime, peoplecount, orderdesc, paytype, orderstatus,
+productid, memberid)
+values ('E4DD4C45EED84870ABA83574A801083E', '11111', to_timestamp('02-03-2018 12:00:00.000000',
+'dd-mm-yyyy hh24:mi:ss.ff'), 2, '没什么', 0, 1, '12B7ABF2A4C544568B0A7C69F36BF8B7',
+'E61D65F673D54F68B0861025C69773DB');
+insert into ORDERS (id, ordernum, ordertime, peoplecount, orderdesc, paytype, orderstatus,
+productid, memberid)
+values ('96CC8BD43C734CC2ACBFF09501B4DD5D', '22222', to_timestamp('02-03-2018 12:00:00.000000',
+'dd-mm-yyyy hh24:mi:ss.ff'), 2, '没什么', 0, 1, '12B7ABF2A4C544568B0A7C69F36BF8B7',
+'E61D65F673D54F68B0861025C69773DB');
+insert into ORDERS (id, ordernum, ordertime, peoplecount, orderdesc, paytype, orderstatus,
+productid, memberid)
+values ('55F9AF582D5A4DB28FB4EC3199385762', '33333', to_timestamp('02-03-2018 12:00:00.000000',
+'dd-mm-yyyy hh24:mi:ss.ff'), 2, '没什么', 0, 1, '9F71F01CB448476DAFB309AA6DF9497F',
+'E61D65F673D54F68B0861025C69773DB');
+insert into ORDERS (id, ordernum, ordertime, peoplecount, orderdesc, paytype, orderstatus,
+productid, memberid)
+values ('CA005CF1BE3C4EF68F88ABC7DF30E976', '44444', to_timestamp('02-03-2018 12:00:00.000000',
+'dd-mm-yyyy hh24:mi:ss.ff'), 2, '没什么', 0, 1, '9F71F01CB448476DAFB309AA6DF9497F',
+'E61D65F673D54F68B0861025C69773DB');
+insert into ORDERS (id, ordernum, ordertime, peoplecount, orderdesc, paytype, orderstatus,
+productid, memberid)
+values ('3081770BC3984EF092D9E99760FDABDE', '55555', to_timestamp('02-03-2018 12:00:00.000000',
+'dd-mm-yyyy hh24:mi:ss.ff'), 2, '没什么', 0, 1, '9F71F01CB448476DAFB309AA6DF9497F',
+'E61D65F673D54F68B0861025C69773DB');
+commit ;
+```
+
+---
+
+#### 1.1.5 创建旅客表
+
+`traveller`
+
+| 序号 |    字段名称     |   字段类型    |              字段描述              |
+| :--: | :-------------: | :-----------: | :--------------------------------: |
+|  1   |       id        | varhcar2(32)  |          无意义, 主键uuid          |
+|  2   |      name       | varchar2(20)  |                姓名                |
+|  3   |       sex       | varhchar2(20) |                姓名                |
+|  4   |    phoneNum     | varhchar2(20) |              电话号码              |
+|  5   | credentialsType |      int      | 证件类型(0 身份证/ 1 护照/ 2 其他) |
+|  6   | credentialsNum  | varchar2(50)  |              证件号码              |
+|  7   |  travellerType  |      int      |   旅客类型(人群) 0 成人/ 1 儿童    |
+
+**创建表sql:**
+
+```sql
+--创建旅客表
+CREATE TABLE traveller
+(
+    id              varchar2(32) default SYS_GUID() PRIMARY KEY,
+    NAME            VARCHAR2(20),
+    sex             VARCHAR2(20),
+    phoneNum        VARCHAR2(20),
+    credentialsType INT,
+    credentialsNum  VARCHAR2(50),
+    travellerType   INT
+);
+```
+
+插入测试数据:
+
+```sql
+--插入测试数据
+insert into TRAVELLER (id, name, sex, phonenum, credentialstype, credentialsnum, travellertype)
+values ('3FE27DF2A4E44A6DBC5D0FE4651D3D3E', '张龙', '男', '13333333333', 0,
+        '123456789009876543', 0);
+insert into TRAVELLER (id, name, sex, phonenum, credentialstype, credentialsnum, travellertype)
+values ('EE7A71FB6945483FBF91543DBE851960', '张小龙', '男', '15555555555', 0,
+        '987654321123456789', 1);
+commit;
+```
+
+---
+
+#### 1.1.6 旅客与订单中间表
+
+`order_traveller`
+
+| 序号 |  字段名称   |   字段类型   | 字段描述 |
+| :--: | :---------: | :----------: | :------: |
+|  1   |   orderId   | varchar2(32) |  订单id  |
+|  2   | travellerId | varchar2(32) |  旅客id  |
+
+**创建表sql:**
+
+```sql
+--旅客与订单中间表
+CREATE TABLE order_traveller
+(
+    orderId     varchar2(32),
+    travellerId varchar2(32),
+    PRIMARY KEY (orderId, travellerId),
+    FOREIGN KEY (orderId) REFERENCES orders (id),
+    FOREIGN KEY (travellerId) REFERENCES traveller (id)
+);
+```
+
+插入测试数据:
+
+```sql
+--插入测试数据
+insert into ORDER_TRAVELLER (orderid, travellerid)
+values ('0E7231DC797C486290E8713CA3C6ECCC', '3FE27DF2A4E44A6DBC5D0FE4651D3D3E');
+insert into ORDER_TRAVELLER (orderid, travellerid)
+values ('2FF351C4AC744E2092DCF08CFD314420', '3FE27DF2A4E44A6DBC5D0FE4651D3D3E');
+insert into ORDER_TRAVELLER (orderid, travellerid)
+values ('3081770BC3984EF092D9E99760FDABDE', 'EE7A71FB6945483FBF91543DBE851960');
+insert into ORDER_TRAVELLER (orderid, travellerid)
+values ('55F9AF582D5A4DB28FB4EC3199385762', 'EE7A71FB6945483FBF91543DBE851960');
+insert into ORDER_TRAVELLER (orderid, travellerid)
+values ('5DC6A48DD4E94592AE904930EA866AFA', '3FE27DF2A4E44A6DBC5D0FE4651D3D3E');
+insert into ORDER_TRAVELLER (orderid, travellerid)
+values ('96CC8BD43C734CC2ACBFF09501B4DD5D', 'EE7A71FB6945483FBF91543DBE851960');
+insert into ORDER_TRAVELLER (orderid, travellerid)
+values ('A0657832D93E4B10AE88A2D4B70B1A28', '3FE27DF2A4E44A6DBC5D0FE4651D3D3E');
+insert into ORDER_TRAVELLER (orderid, travellerid)
+values ('CA005CF1BE3C4EF68F88ABC7DF30E976', 'EE7A71FB6945483FBF91543DBE851960');
+insert into ORDER_TRAVELLER (orderid, travellerid)
+values ('E4DD4C45EED84870ABA83574A801083E', 'EE7A71FB6945483FBF91543DBE851960');
+commit ;
+```
+
 
 ---
 

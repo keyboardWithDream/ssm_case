@@ -53,7 +53,7 @@
     <!-- Bootstrap 3.3.6 -->
     <!-- Morris.js charts -->
     <!-- Sparkline -->
-    <!-- jvectormap -->a
+    <!-- jvectormap -->
     <!-- jQuery Knob Chart -->
     <!-- daterangepicker -->
     <!-- datepicker -->
@@ -229,7 +229,7 @@
                             <div class="form-group form-inline">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default" title="新建"><i class="fa fa-file-o"></i> 新建</button>
-                                    <button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
+                                    <button id="deleteBtn" type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
                                     <button type="button" class="btn btn-default" title="开启"><i class="fa fa-check"></i> 开启</button>
                                     <button type="button" class="btn btn-default" title="屏蔽"><i class="fa fa-ban"></i> 屏蔽</button>
                                     <button type="button" class="btn btn-default" title="刷新"><i class="fa fa-refresh"></i> 刷新</button>
