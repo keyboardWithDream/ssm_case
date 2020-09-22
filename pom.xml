@@ -142,6 +142,13 @@
         </dependency>
         <!-- mybatis end -->
 
+        <!-- mybatis分页工具 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.1.2</version>
+        </dependency>
+
         <!-- dataSource start-->
         <dependency>
             <groupId>c3p0</groupId>
