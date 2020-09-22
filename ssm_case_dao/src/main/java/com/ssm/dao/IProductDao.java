@@ -4,6 +4,7 @@ import com.ssm.domain.Product;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @Author Harlan
  * @Date 2020/9/20
  */
+@Repository
 public interface IProductDao {
 
     /**
@@ -26,6 +28,10 @@ public interface IProductDao {
      * @param product 产品信息
      */
     @Insert("insert into PRODUCT (productNum, productName, cityName, departureTime, productPrice, productDesc, productStatus)"+
-            "values (#{productNum}, #{productName}, #{cityName}, #{departureTime}, #{productPrice}, #{productDesc}, ${productStatus})")
+            "values (#{productNum}, #{productName}, #{cityName}, #{departureTime}, #{productPrice}, #{productDesc}, #{productStatus})")
     void save(Product product);
+
+
+    @Select("select * from product where id = #{id}")
+    Product findById(String id) throws Exception;
 }

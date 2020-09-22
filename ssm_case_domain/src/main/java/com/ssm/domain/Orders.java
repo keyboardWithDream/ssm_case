@@ -3,6 +3,7 @@ package com.ssm.domain;
 import com.ssm.utils.DateUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 订单实体类
@@ -15,15 +16,15 @@ public class Orders {
     private String orderNum;
     private Date orderTime;
     private Integer peopleCount;
-    private String oderDesc;
+    private String orderDesc;
     private Integer payType;
     private String payTypeStr;
     private Integer orderStatus;
     private String orderStatusStr;
     private Product product;
     private Member member;
-    private Traveller traveller;
-    private String oderTimeStr;
+    private List<Traveller> traveller;
+    private String orderTimeStr;
 
     public Integer getOrderStatus() {
         return orderStatus;
@@ -76,15 +77,15 @@ public class Orders {
         this.payTypeStr = payTypeStr;
     }
 
-    public String getOderTimeStr() {
+    public String getOrderTimeStr() {
         if (orderTime != null){
-            oderTimeStr = DateUtils.date2String(orderTime, "yyyy-MM-dd HH:mm");
+            orderTimeStr = DateUtils.date2String(orderTime, "yyyy-MM-dd HH:mm");
         }
-        return oderTimeStr;
+        return orderTimeStr;
     }
 
-    public void setOderTimeStr(String oderTimeStr) {
-        this.oderTimeStr = oderTimeStr;
+    public void setOrderTimeStr(String orderTimeStr) {
+        this.orderTimeStr = orderTimeStr;
     }
 
     public String getId() {
@@ -119,12 +120,12 @@ public class Orders {
         this.peopleCount = peopleCount;
     }
 
-    public String getOderDesc() {
-        return oderDesc;
+    public String getOrderDesc() {
+        return orderDesc;
     }
 
-    public void setOderDesc(String oderDesc) {
-        this.oderDesc = oderDesc;
+    public void setOrderDesc(String orderDesc) {
+        this.orderDesc = orderDesc;
     }
 
 
@@ -144,11 +145,11 @@ public class Orders {
         this.member = member;
     }
 
-    public Traveller getTraveller() {
+    public List<Traveller> getTraveller() {
         return traveller;
     }
 
-    public void setTraveller(Traveller traveller) {
-        this.traveller = traveller;
+    public void setTraveller(List<Traveller> travellers) {
+        this.traveller = travellers;
     }
 }

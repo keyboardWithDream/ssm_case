@@ -65,7 +65,7 @@ public class Product implements Serializable {
 
     public String getDepartureTimeStr() {
         if (departureTime != null){
-            departureTimeStr = DateUtils.date2String(departureTime, "yyyy-MM-dd HH:mm:ss");
+            departureTimeStr = DateUtils.date2String(departureTime, "yyyy-MM-dd HH:mm");
         }
         return departureTimeStr;
     }
