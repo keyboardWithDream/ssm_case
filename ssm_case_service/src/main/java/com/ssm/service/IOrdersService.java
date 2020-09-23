@@ -11,8 +11,11 @@ import java.util.List;
 public interface IOrdersService {
 
     /**
-     * 查询所有订单
-     * @return list
+     * 查询订单
+     * @param page 页码
+     * @param size 条数
+     * @return List
+     * @throws Exception 异常
      */
-    List<Orders> findAll() throws Exception;
+    List<Orders> findAll(int page, int size) throws Exception;
 }
