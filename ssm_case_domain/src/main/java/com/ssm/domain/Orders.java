@@ -1,6 +1,7 @@
 package com.ssm.domain;
 
 import com.ssm.utils.DateUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ public class Orders {
 
     private String id;
     private String orderNum;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date orderTime;
     private Integer peopleCount;
     private String orderDesc;

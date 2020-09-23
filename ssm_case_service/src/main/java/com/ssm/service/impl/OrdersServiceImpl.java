@@ -1,7 +1,6 @@
 package com.ssm.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInterceptor;
 import com.ssm.dao.IOrdersDao;
 import com.ssm.domain.Orders;
 import com.ssm.service.IOrdersService;

@@ -108,3 +108,22 @@ public class OrdersServiceImpl implements IOrdersService {
 
 }
 ```
+
+<font color=red>**PageInfo相当于一个PageBean, 在返回视图时需要传入要返回的数据到PageInfo中, 然后直接返回PageInfo**</font>
+
+```java
+@RequestMapping("/findAll.do")
+public ModelAndView findAll(@RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size",defaultValue = "12") int size)  throws Exception {
+    ModelAndView mv = new ModelAndView();
+    //查询出的数据
+    List<Orders> ordersList = service.findAll(page, size);
+    
+    //PageInfo 就是一个分页Bean, 传入需要返回的数据
+    PageInfo<Orders> pageInfo = new PageInfo<Orders>(ordersList);
+    
+    //添加PageInfo到ModelAndView中
+    mv.addObject("pageInfo", pageInfo);
+    mv.setViewName("orders-list");
+    return mv;
+}
+```
