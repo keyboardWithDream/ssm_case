@@ -147,14 +147,119 @@ Spring Security 是Spring 项目中用来提供安全认证服务的框架.
 
 ---
 
-## `UserDetalls`
+## `UserDetails`
 
+`UserDetails`是一个接口, 对认证主体进行了规范, 通常使用实现类`User`进行使用
 
+其中`Collection<? extends GrantedAuthority>`代表了角色拥有的权限集合, 其集合继承了`GrantedAuthority`
+
+```java
+public interface UserDetails extends AuthenticatedPrincipal, Serializable {
+    Collection<? extends GrantedAuthority> getAuthorities();
+
+    String getPassword();
+
+    String getUsername();
+
+    boolean isAccountNonExpired();
+
+    boolean isAccountNonLocked();
+
+    boolean isCredentialsNonExpired();
+
+    boolean isEnabled();
+
+    default String getName() {
+        return this.getUsername();
+    }
+}
+```
 
 ---
 
 ## `UserDetallService`
 
+`IUserService`需要继承`UserDetailsService`类
 
+```
+public interface IUserService extends UserDetailsService {
+}
+```
+
+`UserServiceImpl`需要实现`loadUserByUsername`方法, 返回值为`UserDetails`, 使用实现类`User`返回
+
+```java
+@Override
+public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+    UserInfo userInfo = null;
+    try {
+        userInfo = dao.findByUsername(s);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    assert userInfo != null;
+    //处理自己的用户对象封装成UserDetails
+    return new User(userInfo.getUsername(), "{noop}" + userInfo.getPassword(), userInfo.getStatus() == 1, true, true, true, getAuthority(userInfo.getRoles()));
+}
+```
+
+构造`User`实体需要传入角色的权限集合, 即`Collection<? extends GrantedAuthority>`, 所以提供了一个私有方法来获取权限的集合, 集合的类型为`SimpleGrantedAuthority`其继承了`GrantedAuthority`.
+
+```java
+/**
+ * 返回一个list集合, 集合中装入的是角色描述
+ * @return list集合
+ */
+private List<SimpleGrantedAuthority> getAuthority(List<Role> roles){
+    List<SimpleGrantedAuthority> list = new ArrayList<>();
+    for (Role role : roles) {
+        list.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+    }
+    return list;
+}
+```
+
+完整代码实现:
+
+```java
+/**
+ * @Author Harlan
+ * @Date 2020/9/25
+ */
+@Service("userService")
+@Transactional
+public class UserServiceImpl implements IUserService {
+
+    @Autowired
+    private IUserDao dao;
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        UserInfo userInfo = null;
+        try {
+            userInfo = dao.findByUsername(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assert userInfo != null;
+        //处理自己的用户对象封装成UserDetails
+        return new User(userInfo.getUsername(), "{noop}" + userInfo.getPassword(), userInfo.getStatus() == 1, true, true, true, getAuthority(userInfo.getRoles()));
+    }
+
+    /**
+     * 返回一个list集合, 集合中装入的是角色描述
+     * @return list集合
+     */
+    private List<SimpleGrantedAuthority> getAuthority(List<Role> roles){
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        for (Role role : roles) {
+            list.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+        }
+        return list;
+    }
+
+}
+```
 
 ---
+
