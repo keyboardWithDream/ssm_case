@@ -9,11 +9,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Author Harlan
@@ -36,7 +38,7 @@ public class UserServiceImpl implements IUserService {
         }
         assert userInfo != null;
         //处理自己的用户对象封装成UserDetails
-        return new User(userInfo.getUsername(), "{noop}" + userInfo.getPassword(), userInfo.getStatus() == 1, true, true, true, getAuthority(userInfo.getRoles()));
+        return new User(userInfo.getUsername(), userInfo.getPassword(), userInfo.getStatus() == 1, true, true, true, getAuthority(userInfo.getRoles()));
     }
 
     /**
@@ -49,6 +51,24 @@ public class UserServiceImpl implements IUserService {
             list.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
         }
         return list;
+    }
+
+    @Override
+    public List<UserInfo> findAll() throws Exception {
+        return dao.findAll();
+    }
+
+    @Override
+    public UserInfo findById(String id) throws Exception {
+        return dao.findById(id);
+    }
+
+    @Override
+    public void save(UserInfo userInfo) throws Exception {
+        userInfo.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+        userInfo.setPassword(new BCryptPasswordEncoder().encode(userInfo.getPassword()));
+        System.out.println(userInfo);
+        dao.save(userInfo);
     }
 
 }

@@ -90,4 +90,18 @@ public class UserInfo implements Serializable {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", status=" + status +
+                ", statusStr='" + statusStr + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

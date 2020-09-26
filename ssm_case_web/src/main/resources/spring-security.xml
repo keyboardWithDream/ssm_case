@@ -33,17 +33,17 @@
 
         <!-- 关闭跨域请求 -->
         <security:csrf disabled="true"/>
-
         <!-- 退出 -->
         <security:logout invalidate-session="true" logout-url="/logout.do" logout-success-url="/pages/login.jsp" />
+
     </security:http>
 
     <!-- 切换成数据库中的用户名和密码 -->
     <security:authentication-manager>
         <security:authentication-provider user-service-ref="userService">
-            <!-- 配置加密的方式
+            <!-- 配置加密的方式 -->
             <security:password-encoder ref="passwordEncoder"/>
-            -->
+
         </security:authentication-provider>
     </security:authentication-manager>
 

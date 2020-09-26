@@ -1,11 +1,10 @@
 package com.ssm.dao;
 
 import com.ssm.domain.UserInfo;
-import org.apache.ibatis.annotations.Many;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @Author Harlan
@@ -31,4 +30,35 @@ public interface IUserDao {
             @Result(property = "roles", column = "id", javaType = java.util.List.class, many = @Many(select = "com.ssm.dao.IRoleDao.findRoleByUserId"))
     })
     UserInfo findByUsername(String username) throws Exception;
+
+    /**
+     * 查询所有用户
+     * @return 用户list
+     */
+    @Select({"select * from users"})
+    List<UserInfo> findAll();
+
+    /**
+     * 通过id查询用户详情
+     * @param id 用户id
+     * @return 用户详情
+     */
+    @Select("select * from users where id = #{id}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "username", column = "username"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "phoneNum", column = "phoneNum"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "roles", column = "id", javaType = java.util.List.class, many = @Many(select = "com.ssm.dao.IRoleDao.findRoleByUserId"))
+    })
+    UserInfo findById(String id);
+
+    /**
+     * 保存用户
+     * @param userInfo 用户信息
+     */
+    @Insert("insert into users values(#{id}, #{email}, #{username}, #{password}, #{phoneNum}, #{status})")
+    void save(UserInfo userInfo);
 }

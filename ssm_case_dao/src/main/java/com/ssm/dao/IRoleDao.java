@@ -19,4 +19,12 @@ public interface IRoleDao {
      */
     @Select("select * from role where id in (select roleId from users_role where userId = #{id})")
     List<Role> findRoleByUserId(String id) throws Exception;
+
+    /**
+     * 查询所有角色
+     * @return 角色list
+     * @throws Exception 异常
+     */
+    @Select("select * from role")
+    List<Role> findAll() throws Exception;
 }
