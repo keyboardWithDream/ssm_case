@@ -1,11 +1,13 @@
 package com.ssm.domain;
 
+import java.io.Serializable;
+
 /**
  * 联系人实体类
  * @Author Harlan
  * @Date 2020/9/22
  */
-public class Member {
+public class Member implements Serializable {
 
     private String id;
     private String name;

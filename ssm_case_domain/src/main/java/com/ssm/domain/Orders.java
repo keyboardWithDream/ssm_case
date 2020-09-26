@@ -3,6 +3,7 @@ package com.ssm.domain;
 import com.ssm.utils.DateUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @Author Harlan
  * @Date 2020/9/22
  */
-public class Orders {
+public class Orders implements Serializable {
 
     private String id;
     private String orderNum;
