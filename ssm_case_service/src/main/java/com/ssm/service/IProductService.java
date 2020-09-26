@@ -12,10 +12,12 @@ public interface IProductService {
 
     /**
      * 查询所有产品
+     * @param page 页码
+     * @param pageSize 每页条数
      * @return list
      * @throws Exception 异常
      */
-    List<Product> findAll() throws Exception;
+    List<Product> findAll(int page, int pageSize) throws Exception;
 
     /**
      * 保存产品信息

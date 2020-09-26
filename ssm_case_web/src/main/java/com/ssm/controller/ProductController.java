@@ -1,10 +1,12 @@
 package com.ssm.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.ssm.domain.Product;
 import com.ssm.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
@@ -26,10 +28,10 @@ public class ProductController {
      * @throws Exception 异常
      */
     @RequestMapping("/findAll.do")
-    public ModelAndView findAll() throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page", defaultValue = "1")int page, @RequestParam(name = "size", defaultValue = "5") int pageSize) throws Exception {
         ModelAndView mv = new ModelAndView();
-        List<Product> products = service.findAll();
-        mv.addObject("productList",products);
+        PageInfo<Product> pageInfo = new PageInfo<>(service.findAll(page, pageSize));
+        mv.addObject("pageInfo",pageInfo);
         mv.setViewName("product-list");
         return mv;
     }

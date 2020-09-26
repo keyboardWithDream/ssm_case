@@ -1,6 +1,7 @@
 package com.ssm.dao;
 
 import com.ssm.domain.Role;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -27,4 +28,12 @@ public interface IRoleDao {
      */
     @Select("select * from role")
     List<Role> findAll() throws Exception;
+
+    /**
+     * 保存角色信息
+     * @param role 角色信息
+     * @throws Exception 异常
+     */
+    @Insert("insert into role values(#{id}, #{roleName}, #{roleDesc})")
+    void save(Role role) throws Exception;
 }

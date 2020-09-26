@@ -1,5 +1,6 @@
 package com.ssm.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.ssm.dao.IProductDao;
 import com.ssm.domain.Product;
 import com.ssm.service.IProductService;
@@ -22,7 +23,8 @@ public class ProductServiceImpl implements IProductService {
     private IProductDao dao;
 
     @Override
-    public List<Product> findAll() throws Exception {
+    public List<Product> findAll(int page, int pageSize) throws Exception {
+        PageHelper.startPage(page, pageSize);
         return dao.findAll();
     }
 

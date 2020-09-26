@@ -192,7 +192,7 @@
                             </thead>
 
                             <tbody>
-                            <c:forEach items="${productList}" var="product">
+                            <c:forEach items="${pageInfo.list}" var="product">
                                 <tr>
                                     <td><input name="ids" type="checkbox"></td>
                                     <td>${product.id }</td>
@@ -253,7 +253,7 @@
                 <div class="box-footer">
                     <div class="pull-left">
                         <div class="form-group form-inline">
-                            总共2 页，共14 条数据。 每页<select class="form-control">
+                            总共${pageInfo.pages} 页，共${pageInfo.total} 条数据。 每页<select class="form-control">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -265,15 +265,13 @@
 
                     <div class="box-tools pull-right">
                         <ul class="pagination">
-                            <li><a href="#" aria-label="Previous">首页</a></li>
-                            <li><a href="#">上一页</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">下一页</a></li>
-                            <li><a href="#" aria-label="Next">尾页</a></li>
+                            <li><a href="${pageContext.request.contextPath}/product/findAll.do?page=${pageInfo.firstPage}&size=${pageInfo.pageSize}" aria-label="Previous">首页</a></li>
+                            <li><a href="${pageContext.request.contextPath}/product/findAll.do?page=${pageInfo.pageNum - 1}&size=${pageInfo.pageSize}">上一页</a></li>
+                            <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+                                <li><a href="${pageContext.request.contextPath}/product/findAll.do?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+                            </c:forEach>
+                            <li><a href="${pageContext.request.contextPath}/product/findAll.do?page=${pageInfo.pageNum + 1}&size=${pageInfo.pageSize}">下一页</a></li>
+                            <li><a href="${pageContext.request.contextPath}/product/findAll.do?page=${pageInfo.lastPage}&size=${pageInfo.pageSize}" aria-label="Next">尾页</a></li>
                         </ul>
                     </div>
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Author Harlan
@@ -23,5 +24,11 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public List<Role> findAll() throws Exception{
         return dao.findAll();
+    }
+
+    @Override
+    public void save(Role role) throws Exception {
+        role.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+        dao.save(role);
     }
 }

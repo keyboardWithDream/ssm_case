@@ -1,5 +1,6 @@
 package com.ssm.controller;
 
+import com.ssm.domain.Role;
 import com.ssm.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,12 @@ public class RoleController {
         ModelAndView mv = new ModelAndView("role-list");
         mv.addObject("roleList", service.findAll());
         return mv;
+    }
+
+    @RequestMapping("save.do")
+    public String save(Role role) throws Exception{
+        service.save(role);
+        return "redirect:findAll.do";
     }
 
 }
