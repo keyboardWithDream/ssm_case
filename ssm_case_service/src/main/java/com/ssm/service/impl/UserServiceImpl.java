@@ -1,6 +1,7 @@
 package com.ssm.service.impl;
 
 import com.ssm.dao.IUserDao;
+import com.ssm.domain.Role;
 import com.ssm.domain.UserInfo;
 import com.ssm.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +34,20 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        assert userInfo != null;
         //处理自己的用户对象封装成UserDetails
-        User user = new User(userInfo.getUsername(), "{noop}" + userInfo.getPassword(), getAuthority());
-        return user;
+        return new User(userInfo.getUsername(), "{noop}" + userInfo.getPassword(), userInfo.getStatus() == 1, true, true, true, getAuthority(userInfo.getRoles()));
     }
 
     /**
      * 返回一个list集合, 集合中装入的是角色描述
      * @return list集合
      */
-    public List<SimpleGrantedAuthority> getAuthority(){
+    public List<SimpleGrantedAuthority> getAuthority(List<Role> roles){
         List<SimpleGrantedAuthority> list = new ArrayList<>();
-        list.add(new SimpleGrantedAuthority("ROLE_USER"));
+        for (Role role : roles) {
+            list.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+        }
         return list;
     }
 
