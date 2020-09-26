@@ -12,10 +12,12 @@ public interface IRoleService {
 
     /**
      * 查询所有角色
+     * @param page 当前页码
+     * @param size 每页显示条数
      * @return 角色列表
      * @throws Exception 异常
      */
-    List<Role> findAll() throws Exception;
+    List<Role> findAll(int page, int size) throws Exception;
 
 
     /**

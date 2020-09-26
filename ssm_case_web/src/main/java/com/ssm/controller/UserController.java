@@ -1,5 +1,6 @@
 package com.ssm.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.ssm.domain.UserInfo;
 import com.ssm.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,10 @@ public class UserController {
     private IUserService service;
 
     @RequestMapping("findAll.do")
-    public ModelAndView findAll() throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size", defaultValue = "12") int size) throws Exception {
         ModelAndView mv = new ModelAndView("user-list");
-        mv.addObject("userList", service.findAll());
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(service.findAll(page, size));
+        mv.addObject("pageInfo", pageInfo);
         return mv;
     }
 

@@ -1,5 +1,6 @@
 package com.ssm.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.ssm.dao.IRoleDao;
 import com.ssm.domain.Role;
 import com.ssm.service.IRoleService;
@@ -22,7 +23,8 @@ public class RoleServiceImpl implements IRoleService {
     private IRoleDao dao;
 
     @Override
-    public List<Role> findAll() throws Exception{
+    public List<Role> findAll(int page, int size) throws Exception{
+        PageHelper.startPage(page, size);
         return dao.findAll();
     }
 

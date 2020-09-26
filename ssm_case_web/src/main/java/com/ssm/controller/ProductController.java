@@ -28,7 +28,7 @@ public class ProductController {
      * @throws Exception 异常
      */
     @RequestMapping("/findAll.do")
-    public ModelAndView findAll(@RequestParam(name = "page", defaultValue = "1")int page, @RequestParam(name = "size", defaultValue = "5") int pageSize) throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page", defaultValue = "1")int page, @RequestParam(name = "size", defaultValue = "12") int pageSize) throws Exception {
         ModelAndView mv = new ModelAndView();
         PageInfo<Product> pageInfo = new PageInfo<>(service.findAll(page, pageSize));
         mv.addObject("pageInfo",pageInfo);

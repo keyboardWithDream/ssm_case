@@ -17,10 +17,12 @@ public interface IUserService extends UserDetailsService {
 
     /**
      * 查询所有用户
+     * @param page 当前页码
+     * @param size 每页显示数量
      * @return 用户list
      * @throws Exception 异常
      */
-    List<UserInfo> findAll() throws Exception;
+    List<UserInfo> findAll(int page, int size) throws Exception;
 
     /**
      * 通过id查询用户
