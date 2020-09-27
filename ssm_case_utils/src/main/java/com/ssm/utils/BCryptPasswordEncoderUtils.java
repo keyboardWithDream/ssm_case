@@ -9,9 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 public class BCryptPasswordEncoderUtils {
 
-    private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private static String encoderPassword(String password){
-        return PASSWORD_ENCODER.encode(password);
+        return passwordEncoder.encode(password);
     }
 }
