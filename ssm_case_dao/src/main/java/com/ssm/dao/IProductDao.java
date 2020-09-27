@@ -31,7 +31,12 @@ public interface IProductDao {
             "values (#{productNum}, #{productName}, #{cityName}, #{departureTime}, #{productPrice}, #{productDesc}, #{productStatus})")
     void save(Product product);
 
-
+    /**
+     * 通过id查询产品
+     * @param id 产品id
+     * @return 产品信息
+     * @throws Exception 异常
+     */
     @Select("select * from product where id = #{id}")
     Product findById(String id) throws Exception;
 }

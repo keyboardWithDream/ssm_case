@@ -321,14 +321,128 @@ values ('E4DD4C45EED84870ABA83574A801083E', 'EE7A71FB6945483FBF91543DBE851960');
 commit ;
 ```
 
+---
+
+### 1.2 权限操作表
+
+#### 1.2.1 用户表
+
+`users`
+
+| 序号 | 字段名称 | 字段类型 |        字段描述        |
+| :--: | :------: | :------: | :--------------------: |
+|  1   |    id    | varchar2 |    无意义, 主键uuid    |
+|  2   |  email   | varchar2 |       非空, 唯一       |
+|  3   | username | varchar2 |         用户名         |
+|  4   | password | varchar2 |       密码(加密)       |
+|  5   | phoneNum | varcahr2 |          电话          |
+|  7   |  status  |   int    | 状态( 0未开启 / 1开启) |
+
+**创建表sql:**
+
+```sql
+-- 用户表
+CREATE TABLE users
+(
+    id       varchar2(32) default SYS_GUID() PRIMARY KEY,
+    email    VARCHAR2(50) UNIQUE NOT NULL,
+    username VARCHAR2(50),
+    PASSWORD VARCHAR2(50),
+    phoneNum VARCHAR2(20),
+    STATUS   INT
+);
+```
+
+---
+
+#### 1.2.2 角色表
+
+`role`
+
+| 序号 | 字段名称 | 字段类型 |     字段描述     |
+| :--: | :------: | :------: | :--------------: |
+|  1   |    id    | varchar2 | 无意义, 主键uuid |
+|  2   | roleName | varchar2 |      角色名      |
+|  3   | roleDesc | varchar2 |     角色描述     |
+
+**创建表sql:**
+
+```sql
+-- 角色表
+CREATE TABLE role
+(
+    id       varchar2(32) default SYS_GUID() PRIMARY KEY,
+    roleName VARCHAR2(50),
+    roleDesc VARCHAR2(50)
+);
+```
+
+---
+
+#### 1.2.3 用户角色关联表
+
+`users_role`
+
+创建表sql:
+
+```sql
+-- 用户角色关联表
+CREATE TABLE users_role
+(
+    userId varchar2(32),
+    roleId varchar2(32),
+    PRIMARY KEY (userId, roleId),
+    FOREIGN KEY (userId) REFERENCES users (id),
+    FOREIGN KEY (roleId) REFERENCES role (id)
+);
+```
+
+---
+
+#### 1.2.4 资源权限表
+
+`permission`
+
+**权限表sql:**
+
+```sql
+-- 资源权限表
+CREATE TABLE permission
+(
+    id             varchar2(32) default SYS_GUID() PRIMARY KEY,
+    permissionName VARCHAR2(50),
+    url            VARCHAR2(50)
+);
+```
+
+---
+
+#### 1.2.5 角色权限关联表
+
+`role_permission`
+
+**创建表sql:**
+
+```sql
+-- 角色权限关联表
+CREATE TABLE role_permission
+(
+    permissionId varchar2(32),
+    roleId       varchar2(32),
+    PRIMARY KEY (permissionId, roleId),
+    FOREIGN KEY (permissionId) REFERENCES permission (id),
+    FOREIGN KEY (roleId) REFERENCES role (id)
+);
+```
+
 
 ---
 
 ---
 
-### 1.2 创建工程
+### 1.3 创建工程
 
-#### 1.2.1 创建Maven工程
+#### 1.3.1 创建Maven工程
 
 **项目目录结构:**
 
@@ -347,7 +461,7 @@ ssm_case
 └─ssm_case_web(web-app骨架)
 ```
 
-#### 1.2.2 父工程导入坐标
+#### 1.3.2 父工程导入坐标
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>

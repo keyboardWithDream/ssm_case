@@ -29,6 +29,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserDao dao;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserInfo userInfo = null;
@@ -68,7 +71,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void save(UserInfo userInfo) throws Exception {
         userInfo.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-        userInfo.setPassword(new BCryptPasswordEncoder().encode(userInfo.getPassword()));
+        userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
         System.out.println(userInfo);
         dao.save(userInfo);
     }

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @Date 2020/9/26
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -35,9 +35,15 @@ public class UserController {
         return mv;
     }
 
-    @RequestMapping("/save.do")
+    @RequestMapping("save.do")
     public String save(UserInfo userInfo) throws Exception {
         service.save(userInfo);
         return "redirect:findAll.do";
+    }
+
+
+    @RequestMapping("findUserByIdAndAllRole")
+    public String findUserByIdAndAllRole(@RequestParam(name = "id") String id){
+        return "redirect:findById.do?id="+id;
     }
 }
