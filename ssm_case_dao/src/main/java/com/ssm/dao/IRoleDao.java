@@ -41,4 +41,13 @@ public interface IRoleDao {
      */
     @Insert("insert into role values(#{id}, #{roleName}, #{roleDesc})")
     void save(Role role) throws Exception;
+
+    /**
+     * 通过资源权限id查询角色
+     * @param id 资源权限id
+     * @return 角色list
+     * @throws Exception 异常
+     */
+    @Select("select * from role where id in (select roleId from role_permission where permissionId = #{id})")
+    List<Role> findRoleByPermissionId(String id) throws Exception;
 }

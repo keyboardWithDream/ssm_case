@@ -33,4 +33,11 @@ public class PermissionController {
         service.save(permission);
         return "redirect:findAll.do";
     }
+
+    @RequestMapping("findById")
+    public ModelAndView findById(@RequestParam(name = "id") String id) throws Exception {
+        ModelAndView mv = new ModelAndView("permission-show");
+        mv.addObject("permission", service.findById(id));
+        return mv;
+    }
 }

@@ -1,8 +1,7 @@
 package com.ssm.dao;
 
 import com.ssm.domain.Permission;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -36,4 +35,19 @@ public interface IPermissionDao {
      */
     @Insert("insert into permission(permissionName, url) values (#{permissionName}, #{url})")
     void save(Permission permission) throws Exception;
+
+    /**
+     * 通过id查询资源权限
+     * @param id 资源权限id
+     * @return 资源权限信息
+     * @throws Exception 异常
+     */
+    @Select("select * from permission where id = #{id}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "permissionName", column = "permissionName"),
+            @Result(property = "url", column = "url"),
+            @Result(property = "roles", column = "id", javaType = java.util.List.class, many = @Many(select = "com.ssm.dao.IRoleDao.findRoleByPermissionId"))
+    })
+    Permission findById(String id) throws Exception;
 }

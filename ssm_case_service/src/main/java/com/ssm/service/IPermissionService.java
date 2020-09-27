@@ -26,4 +26,12 @@ public interface IPermissionService {
      * @throws Exception 异常
      */
     void save(Permission permission) throws Exception;
+
+    /**
+     * 通过id查询资源权限
+     * @param id 资源权限id
+     * @return 资源权限信息
+     * @throws Exception 异常
+     */
+    Permission findById(String id) throws Exception;
 }
