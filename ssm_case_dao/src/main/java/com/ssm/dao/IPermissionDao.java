@@ -19,4 +19,12 @@ public interface IPermissionDao {
      */
     @Select("select * from permission where id in (select permissionId from role_permission where roleId = #{id})")
     List<Permission> findPermissionByRoleId(String id) throws Exception;
+
+    /**
+     * 查询所有资源权限
+     * @return 资源权限list
+     * @throws Exception 异常
+     */
+    @Select("select * from permission")
+    List<Permission> findAll() throws Exception;
 }
