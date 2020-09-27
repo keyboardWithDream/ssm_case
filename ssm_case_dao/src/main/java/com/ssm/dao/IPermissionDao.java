@@ -1,6 +1,7 @@
 package com.ssm.dao;
 
 import com.ssm.domain.Permission;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -27,4 +28,12 @@ public interface IPermissionDao {
      */
     @Select("select * from permission")
     List<Permission> findAll() throws Exception;
+
+    /**
+     * 资源权限添加
+     * @param permission 资源权限信息
+     * @throws Exception 异常
+     */
+    @Insert("insert into permission(permissionName, url) values (#{permissionName}, #{url})")
+    void save(Permission permission) throws Exception;
 }

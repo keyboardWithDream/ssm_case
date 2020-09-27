@@ -27,4 +27,10 @@ public class PermissionController {
         mv.addObject("pageInfo", pageInfo);
         return mv;
     }
+
+    @RequestMapping("save.do")
+    public String save(Permission permission) throws Exception {
+        service.save(permission);
+        return "redirect:findAll.do";
+    }
 }

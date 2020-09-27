@@ -18,4 +18,12 @@ public interface IPermissionService {
      * @param size 每页条数
      */
     List<Permission> findAll(int page, int size) throws Exception;
+
+
+    /**
+     * 添加资源权限
+     * @param permission 资源权限信息
+     * @throws Exception 异常
+     */
+    void save(Permission permission) throws Exception;
 }

@@ -79,35 +79,35 @@
 			<!-- 内容头部 -->
 			<section class="content-header">
 			<h1>
-				角色管理 <small>角色表单</small>
+				资源权限管理 <small>资源权限表单</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="${pageContext.request.contextPath}/index.jsp"><i
 						class="fa fa-dashboard"></i> 首页</a></li>
-				<li><a href="${pageContext.request.contextPath}/role/findAll.do">角色管理</a></li>
-				<li class="active">角色表单</li>
+				<li><a href="${pageContext.request.contextPath}/permission/findAll.do">资源权限管理</a></li>
+				<li class="active">资源权限表单</li>
 			</ol>
 			</section>
 			<!-- 内容头部 /-->
 
-			<form action="${pageContext.request.contextPath}/role/save.do"
+			<form action="${pageContext.request.contextPath}/permission/save.do"
 				method="post">
 				<!-- 正文区域 -->
 				<section class="content"> <!--产品信息-->
 
 				<div class="panel panel-default">
-					<div class="panel-heading">角色信息</div>
+					<div class="panel-heading">资源权限信息</div>
 					<div class="row data-type">
 
-						<div class="col-md-2 title">角色名称</div>
+						<div class="col-md-2 title">资源权限名称</div>
 						<div class="col-md-4 data">
-							<input type="text" class="form-control" name="roleName"
-								placeholder="角色名称" value="">
+							<input type="text" class="form-control" name="permissionName"
+								placeholder="资源权限名称" value="">
 						</div>
-						<div class="col-md-2 title">角色描述</div>
+						<div class="col-md-2 title">URL</div>
 						<div class="col-md-4 data">
-							<input type="text" class="form-control" name="roleDesc"
-								placeholder="角色描述" value="">
+							<input type="text" class="form-control" name="Url"
+								placeholder="资源权限描述" value="">
 						</div>
 										
 

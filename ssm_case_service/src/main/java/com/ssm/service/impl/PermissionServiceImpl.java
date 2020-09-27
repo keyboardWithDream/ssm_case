@@ -26,4 +26,9 @@ public class PermissionServiceImpl implements IPermissionService {
         PageHelper.startPage(page, size);
         return dao.findAll();
     }
+
+    @Override
+    public void save(Permission permission) throws Exception {
+        dao.save(permission);
+    }
 }
