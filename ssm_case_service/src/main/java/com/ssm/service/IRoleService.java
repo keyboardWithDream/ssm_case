@@ -35,4 +35,7 @@ public interface IRoleService {
      * @throws Exception 异常
      */
     Role findById(String id) throws Exception;
+
+
+    void deleteById(String id) throws Exception;
 }

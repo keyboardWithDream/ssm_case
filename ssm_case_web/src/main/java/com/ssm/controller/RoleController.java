@@ -41,4 +41,9 @@ public class RoleController {
         return mv;
     }
 
+    @RequestMapping("delete.do")
+    public String deleteById(@RequestParam(name = "id") String id) throws Exception {
+        service.deleteById(id);
+        return "redirect:findAll.do";
+    }
 }

@@ -67,7 +67,8 @@ public interface IUserDao {
      * 通过角色id查询用户信息
      * @param id 角色id
      * @return 用户信息
+     * @throws Exception 异常
      */
     @Select("select * from users where id in (select userId from users_role where roleId = #{id})")
-    UserInfo findUserByRoleId(String id);
+    UserInfo findUserByRoleId(String id) throws Exception;
 }

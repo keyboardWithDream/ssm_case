@@ -68,4 +68,12 @@ public interface IRoleDao {
             @Result(property = "userInfos", column = "id", javaType = java.util.List.class, many = @Many(select = "com.ssm.dao.IUserDao.findUserByRoleId"))
     })
     Role findById(String id);
+
+
+    /**
+     * 通过id删除角色
+     * @param id 角色id
+     */
+    @Delete("delete from role where id = #{id}")
+    void deleteById(String id);
 }

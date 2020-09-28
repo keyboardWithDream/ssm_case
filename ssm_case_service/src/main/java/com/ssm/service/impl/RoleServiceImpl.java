@@ -38,4 +38,11 @@ public class RoleServiceImpl implements IRoleService {
     public Role findById(String id) throws Exception {
         return dao.findById(id);
     }
+
+    @Override
+    public void deleteById(String id) throws Exception {
+        dao.deleteById(id);
+    }
+
+
 }
