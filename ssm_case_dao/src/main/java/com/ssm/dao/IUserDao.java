@@ -43,6 +43,7 @@ public interface IUserDao {
      * 通过id查询用户详情
      * @param id 用户id
      * @return 用户详情
+     * @throws Exception 异常
      */
     @Select("select * from users where id = #{id}")
     @Results({
@@ -54,14 +55,15 @@ public interface IUserDao {
             @Result(property = "status", column = "status"),
             @Result(property = "roles", column = "id", javaType = java.util.List.class, many = @Many(select = "com.ssm.dao.IRoleDao.findRoleByUserId"))
     })
-    UserInfo findById(String id);
+    UserInfo findById(String id) throws Exception;
 
     /**
      * 保存用户
      * @param userInfo 用户信息
+     * @throws Exception 异常
      */
     @Insert("insert into users values(#{id}, #{email}, #{username}, #{password}, #{phoneNum}, #{status})")
-    void save(UserInfo userInfo);
+    void save(UserInfo userInfo) throws Exception;
 
     /**
      * 通过角色id查询用户信息

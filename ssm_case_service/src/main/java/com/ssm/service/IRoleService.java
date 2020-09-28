@@ -37,5 +37,10 @@ public interface IRoleService {
     Role findById(String id) throws Exception;
 
 
+    /**
+     * 通过id删除角色信息
+     * @param id 角色id
+     * @throws Exception 异常
+     */
     void deleteById(String id) throws Exception;
 }

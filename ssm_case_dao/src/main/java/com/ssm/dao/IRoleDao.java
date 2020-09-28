@@ -75,5 +75,21 @@ public interface IRoleDao {
      * @param id 角色id
      */
     @Delete("delete from role where id = #{id}")
-    void deleteById(String id);
+    void deleteFromRoleById(String id);
+
+
+    /**
+     * 通过id从user_role表中删除
+     * @param id 角色id
+     */
+    @Delete("delete from users_role where roleId = #{id}")
+    void deleteFromUsersRoleById(String id);
+
+
+    /**
+     * 从角色权限表中删除角色
+     * @param id 角色id
+     */
+    @Delete("delete from role_permission where roleId =#{id}")
+    void deleteFromRolePermissionById(String id);
 }
