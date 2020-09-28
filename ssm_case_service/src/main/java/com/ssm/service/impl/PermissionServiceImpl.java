@@ -36,4 +36,10 @@ public class PermissionServiceImpl implements IPermissionService {
     public Permission findById(String id) throws Exception {
         return dao.findById(id);
     }
+
+    @Override
+    public void deleteById(String id) throws Exception {
+        dao.deletePermissionFromRolePermissionById(id);
+        dao.deleteById(id);
+    }
 }

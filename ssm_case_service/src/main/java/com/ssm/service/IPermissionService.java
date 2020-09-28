@@ -34,4 +34,12 @@ public interface IPermissionService {
      * @throws Exception 异常
      */
     Permission findById(String id) throws Exception;
+
+
+    /**
+     * 通过id删除资源权限
+     * @param id 资源权限id
+     * @throws Exception 异常
+     */
+    void deleteById(String id) throws Exception;
 }

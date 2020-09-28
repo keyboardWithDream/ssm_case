@@ -34,10 +34,16 @@ public class PermissionController {
         return "redirect:findAll.do";
     }
 
-    @RequestMapping("findById")
+    @RequestMapping("findById.do")
     public ModelAndView findById(@RequestParam(name = "id") String id) throws Exception {
         ModelAndView mv = new ModelAndView("permission-show");
         mv.addObject("permission", service.findById(id));
         return mv;
+    }
+
+    @RequestMapping("deleteById.do")
+    public String deleteById(@RequestParam(name = "id") String id) throws Exception {
+        service.deleteById(id);
+        return "redirect:findAll.do";
     }
 }
