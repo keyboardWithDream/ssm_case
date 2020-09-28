@@ -26,4 +26,13 @@ public interface IRoleService {
      * @throws Exception 异常
      */
     void save(Role role) throws Exception;
+
+
+    /**
+     * 通过id查询角色
+     * @param id 角色id
+     * @return 角色信息
+     * @throws Exception 异常
+     */
+    Role findById(String id) throws Exception;
 }

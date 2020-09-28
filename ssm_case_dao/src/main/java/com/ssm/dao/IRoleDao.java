@@ -2,6 +2,7 @@ package com.ssm.dao;
 
 import com.ssm.domain.Role;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * @Author Harlan
  * @Date 2020/9/26
  */
+@Repository
 public interface IRoleDao {
 
     /**
@@ -50,4 +52,20 @@ public interface IRoleDao {
      */
     @Select("select * from role where id in (select roleId from role_permission where permissionId = #{id})")
     List<Role> findRoleByPermissionId(String id) throws Exception;
+
+
+    /**
+     * 通过id查询角色详情
+     * @param id 角色id
+     * @return 角色详情
+     */
+    @Select("select * from role where id = #{id}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "roleName", column = "roleName"),
+            @Result(property = "roleDesc", column = "roleDesc"),
+            @Result(property = "permissions", column = "id", javaType = java.util.List.class,many = @Many(select = "com.ssm.dao.IPermissionDao.findPermissionByRoleId")),
+            @Result(property = "userInfos", column = "id", javaType = java.util.List.class, many = @Many(select = "com.ssm.dao.IUserDao.findUserByRoleId"))
+    })
+    Role findById(String id);
 }

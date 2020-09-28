@@ -33,4 +33,9 @@ public class RoleServiceImpl implements IRoleService {
         role.setId(UUID.randomUUID().toString().replaceAll("-", ""));
         dao.save(role);
     }
+
+    @Override
+    public Role findById(String id) throws Exception {
+        return dao.findById(id);
+    }
 }

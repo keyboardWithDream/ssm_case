@@ -2,6 +2,7 @@ package com.ssm.dao;
 
 import com.ssm.domain.UserInfo;
 import org.apache.ibatis.annotations.*;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -61,4 +62,12 @@ public interface IUserDao {
      */
     @Insert("insert into users values(#{id}, #{email}, #{username}, #{password}, #{phoneNum}, #{status})")
     void save(UserInfo userInfo);
+
+    /**
+     * 通过角色id查询用户信息
+     * @param id 角色id
+     * @return 用户信息
+     */
+    @Select("select * from users where id in (select userId from users_role where roleId = #{id})")
+    UserInfo findUserByRoleId(String id);
 }

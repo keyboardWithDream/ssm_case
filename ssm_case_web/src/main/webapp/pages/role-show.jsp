@@ -14,7 +14,7 @@
 
 <!-- Tell the browser to be responsive to screen width -->
 <meta
-	content="width=device-width,initial-scale=1,maximum-scale=1,permission-scalable=no"
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 
 <link rel="stylesheet"
@@ -79,15 +79,15 @@
 			<!-- 内容头部 -->
 			<section class="content-header">
 			<h1>
-				资源权限管理 <small>全部资源权限</small>
+				角色管理 <small>全部角色</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="${pageContext.request.contextPath}/index.jsp"><i
 						class="fa fa-dashboard"></i> 首页</a></li>
 				<li><a
-					href="${pageContext.request.contextPath}/permission/findAll.do">资源权限管理</a></li>
+					href="${pageContext.request.contextPath}/role/findAll.do">角色管理</a></li>
 
-				<li class="active">全部资源权限</li>
+				<li class="active">全部角色</li>
 			</ol>
 			</section>
 			<!-- 内容头部 /-->
@@ -139,21 +139,15 @@
 								</thead>
 
 								<tr data-tt-id="0">
-									<td colspan="2">${permission.permissionName}</td>
+									<td colspan="2">${role.roleName}</td>
 								</tr>
 
 								<tbody>
-									<c:forEach items="${permission.roles}" var="role" varStatus="vs">
+									<c:forEach items="${role.permissions}" var="permission" varStatus="vs">
 										<tr data-tt-id="${vs.index + 1}" data-tt-parent-id="0">
-											<td>${role.roleName }</td>
-											<td>${role.roleDesc }</td>
+											<td>${permission.permissionName}</td>
+											<td>${permission.url}</td>
 										</tr>
-<%--										<c:forEach items="${role.permissions}" var="permission">--%>
-<%--											<tr data-tt-id="1-1" data-tt-parent-id="${vs.index + 1}">--%>
-<%--												<td>${permission.permissionName}</td>--%>
-<%--												<td>${permission.url}</td>--%>
-<%--											</tr>--%>
-<%--										</c:forEach>--%>
 									</c:forEach>
 								</tbody>
 							</table>
