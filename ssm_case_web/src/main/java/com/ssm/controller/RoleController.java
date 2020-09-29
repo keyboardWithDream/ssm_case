@@ -46,4 +46,19 @@ public class RoleController {
         service.deleteById(id);
         return "redirect:findAll.do";
     }
+
+
+    @RequestMapping("findRoleByIdAndAllPermission")
+    public ModelAndView findRoleByIdAndAllPermission(@RequestParam("id") String id) throws Exception {
+        ModelAndView mv = new ModelAndView("role-permission-add");
+        mv.addObject("role", service.findById(id));
+        mv.addObject("permissionList", service.findOtherPermissionById(id));
+        return mv;
+    }
+
+    @RequestMapping("addPermissionToRole")
+    public String addPermissionToRole(@RequestParam(name = "roleId") String roleId, @RequestParam("ids") String[] permissionIds) throws Exception {
+        service.addPermissionToRole(roleId, permissionIds);
+        return "redirect:findAll.do";
+    }
 }

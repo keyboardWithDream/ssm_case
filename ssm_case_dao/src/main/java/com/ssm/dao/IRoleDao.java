@@ -1,5 +1,6 @@
 package com.ssm.dao;
 
+import com.ssm.domain.Permission;
 import com.ssm.domain.Role;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -75,21 +76,41 @@ public interface IRoleDao {
      * @param id 角色id
      */
     @Delete("delete from role where id = #{id}")
-    void deleteFromRoleById(String id);
+    void deleteFromRoleById(String id) throws Exception;
 
 
     /**
      * 通过id从user_role表中删除
      * @param id 角色id
+     * @throws Exception 异常
      */
     @Delete("delete from users_role where roleId = #{id}")
-    void deleteFromUsersRoleById(String id);
+    void deleteFromUsersRoleById(String id) throws Exception;
 
 
     /**
      * 从角色权限表中删除角色
      * @param id 角色id
+     * @throws Exception 异常
      */
     @Delete("delete from role_permission where roleId =#{id}")
-    void deleteFromRolePermissionById(String id);
+    void deleteFromRolePermissionById(String id) throws Exception;
+
+    /**
+     * 通过id查询没有的权限
+     * @param id 角色id
+     * @return 权限
+     * @throws Exception 异常
+     */
+    @Select("select * from permission where id not in (select permissionId from role_permission where roleId = #{id})")
+    List<Permission> findOtherPermissionById(String id) throws Exception;
+
+    /**
+     * 为角色添加资源权限
+     * @param roleId 角色id
+     * @param permissionId 资源权限id
+     * @throws Exception 异常
+     */
+    @Insert("insert into role_permission values(#{permissionId}, #{roleId})")
+    void addPermissionToRole(@Param("roleId") String roleId, @Param("permissionId") String permissionId) throws Exception;
 }

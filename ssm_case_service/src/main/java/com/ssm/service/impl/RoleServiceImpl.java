@@ -2,6 +2,8 @@ package com.ssm.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.ssm.dao.IRoleDao;
+
+import com.ssm.domain.Permission;
 import com.ssm.domain.Role;
 import com.ssm.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +48,16 @@ public class RoleServiceImpl implements IRoleService {
         dao.deleteFromRoleById(id);
     }
 
+    @Override
+    public List<Permission> findOtherPermissionById(String id) throws Exception {
+        return dao.findOtherPermissionById(id);
+    }
+
+    @Override
+    public void addPermissionToRole(String roleId, String[] permissionIds) throws Exception {
+        for (String permissionId : permissionIds) {
+            dao.addPermissionToRole(roleId, permissionId);
+        }
+    }
 
 }
