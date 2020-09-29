@@ -1,5 +1,6 @@
 package com.ssm.service;
 
+import com.ssm.domain.Role;
 import com.ssm.domain.UserInfo;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -38,4 +39,20 @@ public interface IUserService extends UserDetailsService {
      * @throws Exception 异常
      */
     void save(UserInfo userInfo) throws Exception;
+
+    /**
+     * 查询用户没有的角色信息
+     * @param id 用户id
+     * @return 角色list
+     * @throws Exception 异常
+     */
+    List<Role> findOtherRole(String id) throws Exception;
+
+    /**
+     * 为用户添加角色
+     * @param userId 用户id
+     * @param roleIds 角色id（list）
+     * @throws Exception 异常
+     */
+    void addRoleToUser(String userId, String[] roleIds) throws Exception;
 }

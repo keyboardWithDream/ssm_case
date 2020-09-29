@@ -1,8 +1,8 @@
 package com.ssm.dao;
 
+import com.ssm.domain.Role;
 import com.ssm.domain.UserInfo;
 import org.apache.ibatis.annotations.*;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -73,4 +73,22 @@ public interface IUserDao {
      */
     @Select("select * from users where id in (select userId from users_role where roleId = #{id})")
     UserInfo findUserByRoleId(String id) throws Exception;
+
+    /**
+     * 更具用户id查询用户没有的角色
+     * @param userId 用户id
+     * @return 角色list
+     * @throws Exception 异常
+     */
+    @Select("select * from role where id not in (select roleId from users_role where userId = #{id})")
+    List<Role> findOtherRoleById(String userId) throws Exception;
+
+    /**
+     * 为用户添加角色
+     * @param userId 用户id
+     * @param roleId 角色id
+     * @throws Exception 异常
+     */
+    @Insert("insert into users_role values(#{userId}, #{roleId})")
+    void addRoleToUser(@Param("userId") String userId, @Param("roleId") String roleId) throws Exception;
 }
