@@ -5,6 +5,7 @@ import com.ssm.domain.Role;
 import com.ssm.domain.UserInfo;
 import com.ssm.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ public class UserController {
     @Autowired
     private IUserService service;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("findAll.do")
     public ModelAndView findAll(@RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size", defaultValue = "12") int size) throws Exception {
         ModelAndView mv = new ModelAndView("user-list");
@@ -38,6 +40,7 @@ public class UserController {
         return mv;
     }
 
+    @PreAuthorize("authentication.principal.username == 'admin'")
     @RequestMapping("save.do")
     public String save(UserInfo userInfo) throws Exception {
         service.save(userInfo);

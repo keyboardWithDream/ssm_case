@@ -189,6 +189,7 @@
             <version>${oracle.version}</version>
         </dependency>
 
+        <!-- jsr-250 -->
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>jsr250-api</artifactId>

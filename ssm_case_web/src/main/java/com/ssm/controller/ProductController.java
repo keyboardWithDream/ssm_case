@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 
@@ -27,6 +29,7 @@ public class ProductController {
      * @return mv
      * @throws Exception 异常
      */
+    @RolesAllowed("ADMIN")
     @RequestMapping("/findAll.do")
     public ModelAndView findAll(@RequestParam(name = "page", defaultValue = "1")int page, @RequestParam(name = "size", defaultValue = "12") int pageSize) throws Exception {
         ModelAndView mv = new ModelAndView();
