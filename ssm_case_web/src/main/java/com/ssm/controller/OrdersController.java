@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -37,7 +35,7 @@ public class OrdersController {
 
     @Secured("ROLE_ADMIN")
     @RequestMapping("/findAll.do")
-    public ModelAndView findAll(@RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "size",defaultValue = "12") int size)  throws Exception {
+    public ModelAndView findAll(@RequestParam(name = "page", defaultValue = "1") Integer page, @RequestParam(name = "size",defaultValue = "12") Integer size)  throws Exception {
         ModelAndView mv = new ModelAndView();
         List<Orders> ordersList = service.findAll(page, size);
         //PageInfo 就是一个分页Bean
@@ -48,7 +46,7 @@ public class OrdersController {
     }
 
     @RequestMapping("/findById.do")
-    public ModelAndView findById(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView findById(@RequestParam("id") String id) throws Exception {
         ModelAndView mv = new ModelAndView();
         Orders orders = service.findById(id);
         mv.setViewName("orders-show");
