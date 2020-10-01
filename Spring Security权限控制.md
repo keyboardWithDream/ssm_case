@@ -140,3 +140,71 @@ public ModelAndView findAll()  throws Exception {
 ### `@PreFilter`注解
 
 运行方法调用, 但必须在进入方法之前过滤输入值
+
+---
+
+---
+
+## 页面端权限控制
+
+* 第一步: 导入依赖坐标
+
+  ```xml
+  <!-- 页面端权限控制 -->
+  <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+      <version>${spring.security.version}</version>
+  </dependency>
+  ```
+
+* 第二部: 在`jsp`页面导入指令
+
+  ```jsp
+  <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+  ```
+
+* 开启表达式解析
+
+  在`spring-security.xml`中配置 `use-expressions`为`true`
+
+  ```xml
+  <security:http auto-config="true" use-expressions="true">
+  ```
+
+  配置拦截权限时也需要使用表达式
+
+  ```xml
+  <!-- 配置具体的拦截的规则, 使用表达式配置access -->
+  <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+  ```
+
+---
+
+### 常用标签
+
+在`jsp`中我们可以使用以下三种标签, 其中`authentication`代表的是当前认证对象, 可以获取当前认证对象的信息, 如; 用户名. 其他两个标签我们可以用于权限控制
+
+---
+
+#### `authentication`标签
+
+可以获取当前正在操作的用户信息
+
+```jsp
+<!-- 显示当前用户用户名 -->
+<security:authentication property="principal.username"/>
+```
+
+---
+
+#### `authorize`标签
+
+用户控制页面上某些标签是否可以显示
+
+```jsp
+<!-- 只有拥有ROLE_ADMIN角色 才能看见h1标签 -->
+<security:authorize access="hasRole('ROLE_ADMIN')">
+	<h1>Hello Wrold!</h1>
+</security:authorize>
+```

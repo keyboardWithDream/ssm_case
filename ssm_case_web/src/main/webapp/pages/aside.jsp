@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -11,7 +11,7 @@
                      class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>xxx</p>
+                <security:authentication property="principal.username"/>
                 <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
             </div>
         </div>
@@ -24,18 +24,20 @@
                     class="fa fa-dashboard"></i> <span>首页</span></a></li>
 
             <li class="treeview"><a href="#"> <i class="fa fa-cogs"></i>
-                <span>系统管理</span> <span class="pull-right-container"> <i
-                        class="fa fa-angle-left pull-right"></i>
+                <span>系统管理</span> <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
 				</span>
 
 
             </a>
                 <ul class="treeview-menu">
 
+                    <security:authorize access="hasRole('ROLE_ADMIN')">
                     <li id="system-setting"><a
                             href="${pageContext.request.contextPath}/user/findAll.do"> <i
                             class="fa fa-circle-o"></i> 用户管理
                     </a></li>
+                    </security:authorize>
                     <li id="system-setting"><a
                             href="${pageContext.request.contextPath}/role/findAll.do"> <i
                             class="fa fa-circle-o"></i> 角色管理
